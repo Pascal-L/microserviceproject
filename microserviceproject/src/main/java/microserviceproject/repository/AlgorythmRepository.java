@@ -9,5 +9,6 @@ public interface AlgorythmRepository extends JpaRepository<Algorythm, Long> {
 
     List<Algorythm> findByName(String name);
     List<Algorythm> findByNameLike(String name);
+    List<Algorythm> findAllByOrderByNameAsc();
 
 }

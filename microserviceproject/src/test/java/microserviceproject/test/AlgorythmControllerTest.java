@@ -40,7 +40,7 @@ public class AlgorythmControllerTest {
         String algorythmJson = "{\"name\":\"SHA-256\"}";
         String algorythm2Json = "{\"name\":\"SHA-0\"}";
 
-        this.mockMvc.perform(post("/algorythms/")).andExpect(status().isOk());
+        this.mockMvc.perform(get("/algorythms/")).andExpect(status().isOk());
         this.mockMvc.perform(post("/algorythms/add").contentType(CONTENT_TYPE).content(algorythmJson))
                 .andExpect(status().isCreated());
         this.mockMvc.perform(post("/algorythms/add").contentType(CONTENT_TYPE).content(algorythm2Json))
@@ -49,16 +49,18 @@ public class AlgorythmControllerTest {
                 .andExpect(jsonPath("$", hasSize(4)))
                 .andExpect(jsonPath("$[2].name", is("SHA-256")))
                 .andExpect(jsonPath("$[3].name", is("SHA-0")));
+        this.mockMvc.perform(get("/algorythms/allSortedByName")).andExpect(content().contentType(CONTENT_TYPE))
+                .andExpect(jsonPath("$", hasSize(4)))
+                .andExpect(jsonPath("$[2].name", is("SHA-0")))
+                .andExpect(jsonPath("$[3].name", is("SHA-256")));
     }
     @Test
     public void whenFindOne_NotFound_thenError_thenOK() throws Exception {
         String algorythmNameNotFound = "Algo Test Not Found";
         String algorythmJsonDuplicate = "{\"name\":\"Algo Duplicate\"}";
-        String algorythmNameDuplicate = "Algo Duplicate";
-        String algorythmJsonNamedLike = "Algo";
         String algorythmNameOk = "Algo Test";
         
-        this.mockMvc.perform(post("/algorythms/")).andExpect(status().isOk());
+        this.mockMvc.perform(get("/algorythms/")).andExpect(status().isOk());
         
         //adding a double name
         this.mockMvc.perform(post("/algorythms/add").contentType(CONTENT_TYPE).content(algorythmJsonDuplicate));
@@ -81,7 +83,7 @@ public class AlgorythmControllerTest {
         String algorythmJsonOk = "{\"name\":\"Algo Test 3\"}";
         String algorythmJsonDuplicate = "{\"name\":\"Algo Duplicate\"}";
         
-        this.mockMvc.perform(post("/algorythms/")).andExpect(status().isOk());
+        this.mockMvc.perform(get("/algorythms/")).andExpect(status().isOk());
         this.mockMvc.perform(post("/algorythms/add").contentType(CONTENT_TYPE).content(algorythmJsonOk))
                 .andExpect(status().isCreated());
         

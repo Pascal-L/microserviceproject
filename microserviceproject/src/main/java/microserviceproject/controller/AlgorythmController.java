@@ -26,7 +26,7 @@ public class AlgorythmController {
         this.algorythmRepository = algorythmRepository;
     }
    
-    @PostMapping("/algorythms")
+    @GetMapping("/algorythms")
     @ResponseStatus(HttpStatus.OK)
     public void status() {
         
@@ -83,4 +83,11 @@ public class AlgorythmController {
         List<Algorythm> listAlgo = algorythmRepository.findByName(algorythm.getName());
         algorythmRepository.delete(listAlgo);
     }
+    @GetMapping("/algorythms/allSortedByName")
+    public List<Algorythm> getAllSortedByName() {
+        logger.info("getAllSortedByName() ");
+        return algorythmRepository.findAllByOrderByNameAsc();
+    }
+    
+    
 }
