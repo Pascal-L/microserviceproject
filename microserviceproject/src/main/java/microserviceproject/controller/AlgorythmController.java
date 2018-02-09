@@ -35,7 +35,7 @@ public class AlgorythmController {
     @ResponseStatus(HttpStatus.OK)
     public String status() {
         StringBuilder response = new StringBuilder();
-        response.append("méthode :").append("\n")
+        response.append("methods :").append("\n")
         .append("POST : /add [content Json: {algorythm} ]").append("\n")
         .append("GET : /listAll").append("\n")
         .append("GET : /named/{name}").append("\n")
