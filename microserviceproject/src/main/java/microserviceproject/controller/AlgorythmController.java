@@ -1,6 +1,11 @@
 package microserviceproject.controller;
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.List;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 import microserviceproject.exceptions.AlgorythmNotFoundException;
 import microserviceproject.exceptions.DuplicateAlgorythmFoundException;
@@ -26,24 +31,35 @@ public class AlgorythmController {
         this.algorythmRepository = algorythmRepository;
     }
    
-    @GetMapping("/algorythms")
+    @GetMapping("/")
     @ResponseStatus(HttpStatus.OK)
-    public void status() {
-        
+    public String status() {
+        StringBuilder response = new StringBuilder();
+        response.append("méthode :").append("\n")
+        .append("POST : /add [content Json: {algorythm} ]").append("\n")
+        .append("GET : /listAll").append("\n")
+        .append("GET : /named/{name}").append("\n")
+        .append("GET : /allNamed/{name}").append("\n")
+        .append("GET : /allNamed/{namedLike}").append("\n")
+        .append("POST : /deleteNamed [content Json: {algorythm} ]").append("\n")
+        .append("POST : /deleteAllNamed [content Json: {algorythm} ]").append("\n")
+        .append("GET : /allSortedByName").append("\n");
+                
+        return response.toString();
     }
-    
-    @PostMapping("/algorythms/add")
+
+    @PostMapping("/add")
     @ResponseStatus(HttpStatus.CREATED)
     public void addAlgorythm(@RequestBody Algorythm algorythm) {
         algorythmRepository.save(algorythm);
     }
 
-    @PostMapping("/algorythms/listAll")
+    @GetMapping("/listAll")
     public List<Algorythm> getAlgorythms() {
         return algorythmRepository.findAll();
     }
     
-    @GetMapping("/algorythms/named/{name}")
+    @GetMapping("/named/{name}")
     public Algorythm findByName(@PathVariable String name) {
         logger.info("findByName() name: " + name);
         List<Algorythm> result = algorythmRepository.findByName(name);
@@ -55,20 +71,20 @@ public class AlgorythmController {
         return result.get(0);
     }
     
-    @GetMapping("/algorythms/allNamed/{name}")
+    @GetMapping("/allNamed/{name}")
     public List<Algorythm> findAllByName(@PathVariable String name) {
     logger.info("findAllByName() name: " + name);
         List<Algorythm> result = algorythmRepository.findByName(name);
         return result;
     }
     
-    @GetMapping("/algorythms/allNamedLike/{name}")
+    @GetMapping("/allNamedLike/{name}")
     public List<Algorythm> findAllByNameLike(@PathVariable String name) {
         List<Algorythm> result = algorythmRepository.findByNameLike(name);
         return result;
     }
     
-    @PostMapping("/algorythms/deleteNamed")
+    @PostMapping("/deleteNamed")
     @ResponseStatus(HttpStatus.OK)
     public void deleteByName(@RequestBody Algorythm algorythm) {
         logger.info("deleteByName() name: " + algorythm.getName());
@@ -76,14 +92,14 @@ public class AlgorythmController {
         algorythmRepository.delete(algorythmToDelete);
     }
     
-    @PostMapping("/algorythms/deleteAllNamed")
+    @PostMapping("/deleteAllNamed")
     @ResponseStatus(HttpStatus.OK)
     public void deleteAllByName(@RequestBody Algorythm algorythm) throws AlgorythmNotFoundException,DuplicateAlgorythmFoundException{
         logger.info("deleteByName() name: " + algorythm.getName());
         List<Algorythm> listAlgo = algorythmRepository.findByName(algorythm.getName());
         algorythmRepository.delete(listAlgo);
     }
-    @GetMapping("/algorythms/allSortedByName")
+    @GetMapping("/allSortedByName")
     public List<Algorythm> getAllSortedByName() {
         logger.info("getAllSortedByName() ");
         return algorythmRepository.findAllByOrderByNameAsc();

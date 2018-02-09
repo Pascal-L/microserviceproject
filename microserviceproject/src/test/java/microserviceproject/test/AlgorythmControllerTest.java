@@ -17,10 +17,12 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import microserviceproject.Microservice;
+import org.springframework.test.context.jdbc.Sql;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = Microservice.class)
 @WebAppConfiguration
+@Sql("classpath:testData.sql")
 public class AlgorythmControllerTest {
 
     private static final String CONTENT_TYPE = "application/json;charset=UTF-8";
@@ -40,16 +42,16 @@ public class AlgorythmControllerTest {
         String algorythmJson = "{\"name\":\"SHA-256\"}";
         String algorythm2Json = "{\"name\":\"SHA-0\"}";
 
-        this.mockMvc.perform(get("/algorythms/")).andExpect(status().isOk());
-        this.mockMvc.perform(post("/algorythms/add").contentType(CONTENT_TYPE).content(algorythmJson))
+        this.mockMvc.perform(get("/")).andExpect(status().isOk());
+        this.mockMvc.perform(post("/add").contentType(CONTENT_TYPE).content(algorythmJson))
                 .andExpect(status().isCreated());
-        this.mockMvc.perform(post("/algorythms/add").contentType(CONTENT_TYPE).content(algorythm2Json))
+        this.mockMvc.perform(post("/add").contentType(CONTENT_TYPE).content(algorythm2Json))
                 .andExpect(status().isCreated());
-        this.mockMvc.perform(post("/algorythms/listAll")).andExpect(content().contentType(CONTENT_TYPE))
+        this.mockMvc.perform(get("/listAll")).andExpect(content().contentType(CONTENT_TYPE))
                 .andExpect(jsonPath("$", hasSize(4)))
                 .andExpect(jsonPath("$[2].name", is("SHA-256")))
                 .andExpect(jsonPath("$[3].name", is("SHA-0")));
-        this.mockMvc.perform(get("/algorythms/allSortedByName")).andExpect(content().contentType(CONTENT_TYPE))
+        this.mockMvc.perform(get("/allSortedByName")).andExpect(content().contentType(CONTENT_TYPE))
                 .andExpect(jsonPath("$", hasSize(4)))
                 .andExpect(jsonPath("$[2].name", is("SHA-0")))
                 .andExpect(jsonPath("$[3].name", is("SHA-256")));
@@ -60,20 +62,20 @@ public class AlgorythmControllerTest {
         String algorythmJsonDuplicate = "{\"name\":\"Algo Duplicate\"}";
         String algorythmNameOk = "Algo Test";
         
-        this.mockMvc.perform(get("/algorythms/")).andExpect(status().isOk());
+        this.mockMvc.perform(get("/")).andExpect(status().isOk());
         
         //adding a double name
-        this.mockMvc.perform(post("/algorythms/add").contentType(CONTENT_TYPE).content(algorythmJsonDuplicate));
-        this.mockMvc.perform(post("/algorythms/add").contentType(CONTENT_TYPE).content(algorythmJsonDuplicate));
+        this.mockMvc.perform(post("/add").contentType(CONTENT_TYPE).content(algorythmJsonDuplicate));
+        this.mockMvc.perform(post("/add").contentType(CONTENT_TYPE).content(algorythmJsonDuplicate));
         
-        this.mockMvc.perform(get("/algorythms/named/"+algorythmNameNotFound))
+        this.mockMvc.perform(get("/named/"+algorythmNameNotFound))
                 .andExpect(status().isNotFound());
         
-        this.mockMvc.perform(post("/algorythms/listAll").contentType(CONTENT_TYPE))
-                .andExpect(jsonPath("$",hasSize(6)))
+        this.mockMvc.perform(get("/listAll").contentType(CONTENT_TYPE))
+                .andExpect(jsonPath("$",hasSize(4)))
                 .andExpect(jsonPath("$[0].name", is("Algo Test")));
         
-        this.mockMvc.perform(get("/algorythms/named/"+algorythmNameOk))
+        this.mockMvc.perform(get("/named/"+algorythmNameOk))
                 .andExpect(jsonPath("$.name", is("Algo Test")));
         
     }
@@ -82,21 +84,34 @@ public class AlgorythmControllerTest {
         String algorythmJsonNotFound = "{\"name\":\"Algo Not Found\"}";
         String algorythmJsonOk = "{\"name\":\"Algo Test 3\"}";
         String algorythmJsonDuplicate = "{\"name\":\"Algo Duplicate\"}";
+        String algorythmNamedLike = "Algo";
         
-        this.mockMvc.perform(get("/algorythms/")).andExpect(status().isOk());
-        this.mockMvc.perform(post("/algorythms/add").contentType(CONTENT_TYPE).content(algorythmJsonOk))
+        this.mockMvc.perform(get("/")).andExpect(status().isOk());
+        this.mockMvc.perform(post("/add").contentType(CONTENT_TYPE).content(algorythmJsonOk))
                 .andExpect(status().isCreated());
         
-        this.mockMvc.perform(post("/algorythms/listAll")).andExpect(status().isOk()).andExpect(content().contentType(CONTENT_TYPE))
-                .andExpect(jsonPath("$", hasSize(7)))
-                .andExpect(jsonPath("$[6].name", is("Algo Test 3")));
+        this.mockMvc.perform(get("/listAll")).andExpect(status().isOk()).andExpect(content().contentType(CONTENT_TYPE))
+                .andExpect(jsonPath("$", hasSize(3)))
+                .andExpect(jsonPath("$[2].name", is("Algo Test 3")));
         
-        this.mockMvc.perform(post("/algorythms/deleteNamed").contentType(CONTENT_TYPE).content(algorythmJsonNotFound))
+        this.mockMvc.perform(post("/deleteNamed").contentType(CONTENT_TYPE).content(algorythmJsonNotFound))
                 .andExpect(status().isNotFound());
-        this.mockMvc.perform(post("/algorythms/deleteNamed").contentType(CONTENT_TYPE).content(algorythmJsonDuplicate))
+        //Test remove duplicate name
+        this.mockMvc.perform(post("/add").contentType(CONTENT_TYPE).content(algorythmJsonDuplicate))
+                .andExpect(status().isCreated());
+        this.mockMvc.perform(post("/add").contentType(CONTENT_TYPE).content(algorythmJsonDuplicate))
+                .andExpect(status().isCreated());
+        
+        this.mockMvc.perform(post("/deleteNamed").contentType(CONTENT_TYPE).content(algorythmJsonDuplicate))
                 .andExpect(status().isInternalServerError());
-        this.mockMvc.perform(post("/algorythms/deleteNamed").contentType(CONTENT_TYPE).content(algorythmJsonOk))
+        this.mockMvc.perform(post("/deleteNamed").contentType(CONTENT_TYPE).content(algorythmJsonOk))
                 .andExpect(status().isOk());
+        this.mockMvc.perform(post("/deleteAllNamed").contentType(CONTENT_TYPE).content(algorythmJsonDuplicate))
+                .andExpect(status().isOk());
+        
+        this.mockMvc.perform(get("/allNamedLike/"+algorythmNamedLike))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$", hasSize(0)));
        
     }
 }

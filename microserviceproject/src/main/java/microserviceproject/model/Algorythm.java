@@ -17,10 +17,10 @@ public class Algorythm {
     private Integer creationYear;
     private String createdBy;
     private Boolean isCracked;
-    private Date dc;
-    private Date dm;
-    private String userC;
-    private String userM;
+    private Date createdDate;
+    private Date modifiedDate;
+    private String userCreation;
+    private String userModification;
 
     public Algorythm() {
     }
@@ -77,39 +77,37 @@ public class Algorythm {
 
     public void setIsCracked(Boolean isCracked) {
         this.isCracked = isCracked;
-    }
-
-    public Date getDc() {
-        return dc;
-    }
-
-    public void setDc(Date dc) {
-        this.dc = dc;
-    }
-
-    public Date getDm() {
-        return dm;
-    }
-
-    public void setDm(Date dm) {
-        this.dm = dm;
-    }
-
-    public String getUserC() {
-        return userC;
-    }
-
-    public void setUserC(String userC) {
-        this.userC = userC;
-    }
-
-    public String getUserM() {
-        return userM;
-    }
-
-    public void setUserM(String userM) {
-        this.userM = userM;
-    }
+    } 
     
-    
+    public Date getCreatedDate() {
+        return createdDate;
+    }
+
+    public void setCreatedDate(Date createdDate) {
+        this.createdDate = createdDate;
+    }
+
+    public Date getModifiedDate() {
+        return modifiedDate;
+    }
+
+    public void setModifiedDate(Date modifiedDate) {
+        this.modifiedDate = modifiedDate;
+    }
+
+    public String getUserCreation() {
+        return userCreation;
+    }
+
+    public void setUserCreation(String userCreation) {
+        this.userCreation = userCreation;
+    }
+
+    public String getUserModification() {
+        return userModification;
+    }
+
+    public void setUserModification(String userModification) {
+        this.userModification = userModification;
+    }
 }

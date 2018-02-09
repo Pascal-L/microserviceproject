@@ -3,13 +3,13 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>microserviceproject</groupId>
     <artifactId>microserviceproject</artifactId>
-    <version>0.1.2-SNAPSHOT</version>
+    <version>0.1.4-DEMO</version>
     <packaging>jar</packaging>
     <name>microserviceproject</name>
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>1.5.9.RELEASE</version>
+        <version>1.5.10.RELEASE</version>
     </parent>
     <dependencies>
         <dependency>
@@ -27,6 +27,7 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -35,18 +36,13 @@
     </dependencies>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
+        <maven.compiler.source>1.7</maven.compiler.source>
+        <maven.compiler.target>1.7</maven.compiler.target>
         <tomcat.version>8.0.43</tomcat.version>
         <docker.image.prefix>microservice_docker</docker.image.prefix>
         <testResourcesDirectory>test/ressources</testResourcesDirectory>
     </properties>
     <build>
-        <testResources>
-            <testResource>
-                <directory>test/ressources</directory>
-            </testResource>
-        </testResources>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
