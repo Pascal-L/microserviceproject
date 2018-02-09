@@ -36,13 +36,13 @@ public class AlgorythmController {
     public String status() {
         StringBuilder response = new StringBuilder();
         response.append("methods :").append("\n")
-        .append("POST : /add [content Json: {algorythm} ]").append("\n")
+        .append("POST : /add [content Application/Json: {algorythm} ]").append("\n")
         .append("GET : /listAll").append("\n")
         .append("GET : /named/{name}").append("\n")
         .append("GET : /allNamed/{name}").append("\n")
         .append("GET : /allNamed/{namedLike}").append("\n")
-        .append("POST : /deleteNamed [content Json: {algorythm} ]").append("\n")
-        .append("POST : /deleteAllNamed [content Json: {algorythm} ]").append("\n")
+        .append("POST : /deleteNamed [content Application/Json: {algorythm} ]").append("\n")
+        .append("POST : /deleteAllNamed [content Application/Json: {algorythm} ]").append("\n")
         .append("GET : /allSortedByName").append("\n");
                 
         return response.toString();
