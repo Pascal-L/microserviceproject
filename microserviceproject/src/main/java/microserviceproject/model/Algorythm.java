@@ -11,16 +11,18 @@ public class Algorythm {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-
     private String name;
-    private String description;
-    private Integer creationYear;
-    private String createdBy;
-    private Boolean isCracked;
-    private Date createdDate;
-    private Date modifiedDate;
-    private String userCreation;
-    private String userModification;
+    private String type;
+    private String bloc;
+    private String key_length;
+    private String structure;
+    private String known_attacks;
+    private Integer creationyear;
+    private String createdby;
+    private Date created_date;
+    private Date modified_date;
+    private String user_creation;
+    private String user_modification;
 
     public Algorythm() {
     }
@@ -47,67 +49,92 @@ public class Algorythm {
         this.name = name;
     }
 
-    public String getDescription() {
-        return description;
+    public String getType() {
+        return type;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setType(String type) {
+        this.type = type;
     }
 
-    public Integer getCreationYear() {
-        return creationYear;
+    public String getBloc() {
+        return bloc;
     }
 
-    public void setCreationYear(Integer creationYear) {
-        this.creationYear = creationYear;
+    public void setBloc(String bloc) {
+        this.bloc = bloc;
     }
 
-    public String getCreatedBy() {
-        return createdBy;
+    public String getKey_length() {
+        return key_length;
     }
 
-    public void setCreatedBy(String createdBy) {
-        this.createdBy = createdBy;
+    public void setKey_length(String key_length) {
+        this.key_length = key_length;
     }
 
-    public Boolean getIsCracked() {
-        return isCracked;
+    public String getStructure() {
+        return structure;
     }
 
-    public void setIsCracked(Boolean isCracked) {
-        this.isCracked = isCracked;
-    } 
+    public void setStructure(String structure) {
+        this.structure = structure;
+    }
+
+    public String getKnown_attacks() {
+        return known_attacks;
+    }
+
+    public void setKnown_attacks(String known_attacks) {
+        this.known_attacks = known_attacks;
+    }
+
+    public Integer getCreationyear() {
+        return creationyear;
+    }
+
+    public void setCreationyear(Integer creationyear) {
+        this.creationyear = creationyear;
+    }
+
+    public String getCreatedby() {
+        return createdby;
+    }
+
+    public void setCreatedby(String createdby) {
+        this.createdby = createdby;
+    }
+
+    public Date getCreated_date() {
+        return created_date;
+    }
+
+    public void setCreated_date(Date created_date) {
+        this.created_date = created_date;
+    }
+
+    public Date getModified_date() {
+        return modified_date;
+    }
+
+    public void setModified_date(Date modified_date) {
+        this.modified_date = modified_date;
+    }
+
+    public String getUser_creation() {
+        return user_creation;
+    }
+
+    public void setUser_creation(String user_creation) {
+        this.user_creation = user_creation;
+    }
+
+    public String getUser_modification() {
+        return user_modification;
+    }
+
+    public void setUser_modification(String user_modification) {
+        this.user_modification = user_modification;
+    }
     
-    public Date getCreatedDate() {
-        return createdDate;
-    }
-
-    public void setCreatedDate(Date createdDate) {
-        this.createdDate = createdDate;
-    }
-
-    public Date getModifiedDate() {
-        return modifiedDate;
-    }
-
-    public void setModifiedDate(Date modifiedDate) {
-        this.modifiedDate = modifiedDate;
-    }
-
-    public String getUserCreation() {
-        return userCreation;
-    }
-
-    public void setUserCreation(String userCreation) {
-        this.userCreation = userCreation;
-    }
-
-    public String getUserModification() {
-        return userModification;
-    }
-
-    public void setUserModification(String userModification) {
-        this.userModification = userModification;
-    }
 }

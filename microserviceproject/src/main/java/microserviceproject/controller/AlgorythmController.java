@@ -1,9 +1,5 @@
 package microserviceproject.controller;
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -23,9 +19,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 @RestController
 public class AlgorythmController {
-   protected Logger logger = Logger.getLogger(AlgorythmController.class
+   protected static final Logger LOGGER = Logger.getLogger(AlgorythmController.class
 			.getName());
-   private AlgorythmRepository algorythmRepository;
+   private final AlgorythmRepository algorythmRepository;
 
    public AlgorythmController(AlgorythmRepository algorythmRepository) {
         this.algorythmRepository = algorythmRepository;
@@ -61,7 +57,7 @@ public class AlgorythmController {
     
     @GetMapping("/named/{name}")
     public Algorythm findByName(@PathVariable String name) {
-        logger.info("findByName() name: " + name);
+        LOGGER.log(Level.INFO, "findByName() name: {0}", name);
         List<Algorythm> result = algorythmRepository.findByName(name);
         if (result.isEmpty()) {
             throw new AlgorythmNotFoundException(name);    
@@ -73,7 +69,7 @@ public class AlgorythmController {
     
     @GetMapping("/allNamed/{name}")
     public List<Algorythm> findAllByName(@PathVariable String name) {
-    logger.info("findAllByName() name: " + name);
+    LOGGER.log(Level.INFO, "findAllByName() name: {0}", name);
         List<Algorythm> result = algorythmRepository.findByName(name);
         return result;
     }
@@ -87,7 +83,7 @@ public class AlgorythmController {
     @PostMapping("/deleteNamed")
     @ResponseStatus(HttpStatus.OK)
     public void deleteByName(@RequestBody Algorythm algorythm) {
-        logger.info("deleteByName() name: " + algorythm.getName());
+        LOGGER.log(Level.INFO, "deleteByName() name: {0}", algorythm.getName());
         Algorythm algorythmToDelete = findByName(algorythm.getName());
         algorythmRepository.delete(algorythmToDelete);
     }
@@ -95,13 +91,13 @@ public class AlgorythmController {
     @PostMapping("/deleteAllNamed")
     @ResponseStatus(HttpStatus.OK)
     public void deleteAllByName(@RequestBody Algorythm algorythm) throws AlgorythmNotFoundException,DuplicateAlgorythmFoundException{
-        logger.info("deleteByName() name: " + algorythm.getName());
+        LOGGER.log(Level.INFO, "deleteByName() name: {0}", algorythm.getName());
         List<Algorythm> listAlgo = algorythmRepository.findByName(algorythm.getName());
         algorythmRepository.delete(listAlgo);
     }
     @GetMapping("/allSortedByName")
     public List<Algorythm> getAllSortedByName() {
-        logger.info("getAllSortedByName() ");
+        LOGGER.info("getAllSortedByName() ");
         return algorythmRepository.findAllByOrderByNameAsc();
     }
     
