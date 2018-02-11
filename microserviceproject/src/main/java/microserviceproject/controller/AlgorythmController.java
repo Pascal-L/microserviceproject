@@ -36,7 +36,7 @@ public class AlgorythmController {
         .append("GET : /listAll").append("\n")
         .append("GET : /named/{name}").append("\n")
         .append("GET : /allNamed/{name}").append("\n")
-        .append("GET : /allNamed/{namedLike}").append("\n")
+        .append("GET : /allNamedLike/{namedLike}").append("\n")
         .append("POST : /deleteNamed [content Application/Json: {algorythm} ]").append("\n")
         .append("POST : /deleteAllNamed [content Application/Json: {algorythm} ]").append("\n")
         .append("GET : /allSortedByName").append("\n");
